@@ -1,8 +1,9 @@
 import User from "../model/user.js"
 
-export const createnewUser = async (username, email, phoneNumber, password, gender) => {
-  const user = new User({
-    name: username,
+export const createnewUser = async (name, email, phoneNumber, password, gender) => {
+  try {
+    const user = new User({
+    name: name,
     email:email,
     phoneNumber: phoneNumber,
     password: password,
@@ -10,6 +11,11 @@ export const createnewUser = async (username, email, phoneNumber, password, gend
   })
   await user.save()
   return user;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+  
 }
 
 export const getUserbyId = async (id) => {
@@ -22,20 +28,17 @@ export const getAllUsers = async () => {
   return users;
 }
 
-export const updateUser = async (id, username, emailAddress, phoneNumber, password, gender) => {
+export const updateUser = async (id, name, email, phoneNumber, password, gender) => {
   const updatedUser = await User.findByIdAndUpdate(
       id,
-      { username, emailAddress, phoneNumber, password, gender },
+      { name, email, phoneNumber, password, gender },
       { new: true, runValidators: true } 
     )
   return updatedUser; 
 }
 
-export const deleteUser = async (id, username, emailAddress) => {
-  const deletedUser = await User.findByIdAndDelete(
-    id,
-    {username, emailAddress, phoneNumber, password, gender},
-    { new: true, runValidators: true }
-  )
+export const deleteUser = async (id) => {
+  const deletedUser = await User.findByIdAndDelete(id)
+ 
   return deletedUser;
 }

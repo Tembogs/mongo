@@ -21,7 +21,22 @@ const userSchema = new Schema({
   gender: {
     type: String,
     required: true
-  }
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
+  },
+  cart:[{
+    product:{
+      type:Schema.Types.ObjectId,
+      ref:"Product"
+    },
+    quantity:{
+      type:Number,
+      default:1
+    }
+  }]
 })
 
 const User = model("User", userSchema)  
